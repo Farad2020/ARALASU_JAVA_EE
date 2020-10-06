@@ -1,0 +1,18 @@
+.bg-light-blue{
+    background-color: #33B5E5;
+}
+
+.footer-link{
+    color: white;
+}
+
+.footer-link:hover{
+    color: black;
+    text-decoration: none;
+}
+
+.profile-picture-default {
+    max-height: 17rem;
+    max-width: 17rem;
+    object-fit: cover;
+}
