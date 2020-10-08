@@ -100,7 +100,7 @@
                         <div class="d-flex  justify-content-between align-items-center">
                             <div class="container m-0 p-0">
                                 Posted on <%=post.getFormattedPost_date()%> by <a
-                                    href="/users?id=<%=post.getAuthor().getId()%>"><%=post.getAuthor().getFull_name()%>
+                                    href="/#"><%=post.getAuthor().getFull_name()%> <!-- users?id=<%//=post.getAuthor().getId()%> -->
                             </a>
                             </div>
 
@@ -185,10 +185,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="font-weight-bold"><%=post.getShort_content()%>
-                                    </label>
-                                    <p><%=post.getContent()%>
-                                    </p>
+                                    <div class="font-weight-bold"><%=post.getShort_content()%>
+                                    </div>
+                                    <%=post.getContent()%>
                                 </div>
 
                                 <div class="modal-footer">

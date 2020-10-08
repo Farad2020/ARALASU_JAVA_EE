@@ -1,5 +1,10 @@
 package modules;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Date;
+
 public class User {
     private Long id;
     private String email;
@@ -45,6 +50,18 @@ public class User {
         this.full_name = u.full_name;
         this.birth_date = u.birth_date;
         this.picture_url = u.picture_url;
+    }
+
+    public int getUserAge(){
+        try{
+            LocalDate dateOfBirth = LocalDate.parse(birth_date);
+            Period period = Period.between(dateOfBirth, LocalDate.now());
+
+            return period.getYears();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
     public Long getId() {

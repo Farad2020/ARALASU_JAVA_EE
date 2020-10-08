@@ -12,7 +12,11 @@
 <%//@include file="../blocks/not_signed_user_header.jsp" %>-->
 <%@include file="../blocks/header.jsp" %>
 
-<div class="container p-0">
+<div class="container p-0" style="margin: 7.3rem auto;">
+
+    <% String remember_user_email = (String) request.getAttribute("remember_user_email");
+        String remember_user_password = (String) request.getAttribute("remember_user_password");
+        %>
 
     <div class="container p-0 my-5 text-center">
         <h1 class="card-title font-italic">SIGN IN</h1>
@@ -33,17 +37,19 @@
             <form class="col-6" action="/user_login" method="post">
                 <div class="form-group">
                     <label for="userEmailInput">Email address</label>
-                    <input name="email" type="email" class="form-control" id="userEmailInput" aria-describedby="emailHelp" placeholder="Enter email" required>
+                    <input name="email" type="email" class="form-control" id="userEmailInput" aria-describedby="emailHelp" placeholder="Enter email"
+                           value="<%=remember_user_email != null? remember_user_email:"" %>" required>
                     <small class="form-text text-muted">Input your email.</small>
                 </div>
 
                 <div class="form-group">
                     <label for="userPasswordInput">Password</label>
-                    <input name="password" type="password" class="form-control" id="userPasswordInput" placeholder="Password" required>
+                    <input name="password" type="password" class="form-control" id="userPasswordInput" placeholder="Password"
+                           value="<%=remember_user_password != null? remember_user_password:"" %>" required>
                     <small class="form-text text-muted">Input your password.</small>
                 </div>
                 <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="userRememberCheck">
+                    <input name="remember_user" type="checkbox" class="form-check-input" id="userRememberCheck">
                     <label class="form-check-label" for="userRememberCheck">Remember me</label>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>

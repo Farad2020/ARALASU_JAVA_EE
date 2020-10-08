@@ -22,15 +22,16 @@ public class UserUpdatePasswordServlet extends HttpServlet {
         if( user != null && user.getId() == id ){
             if( !password.equals(user.getPassword()) ){
                 response.sendRedirect("/user_edit?password_error&id="+id);
-            }
-            if( !new_password.equals(re_password) ){
+            }else if( !new_password.equals(re_password) ){
                 response.sendRedirect("/user_edit?re_password_error&id="+id);
+            }else{
+                user.setPassword(new_password);
+                DBManager.updateUser(user);
+
+                response.sendRedirect("/user_edit?password_success&id=" + user.getId());
             }
 
-            user.setPassword(new_password);
-            DBManager.updateUser(user);
-            response.sendRedirect("/user_edit?password_success&id="+id);
-            //request.getRequestDispatcher("/user_edit").forward(request, response);
+            //request.getRequestDispatcher("/user_edit?password_success&id="+id).forward(request, response);
         }else{
             request.getRequestDispatcher("/404").forward(request, response);
         }

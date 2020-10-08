@@ -41,7 +41,7 @@
                             <div class="form-group">
                                 <label for="userEmailInput">Email address</label>
                                 <input name="email" type="email" class="form-control" id="userEmailInput"
-                                       aria-describedby="emailHelp" value="<%=current_user.getEmail()%>" required>
+                                       aria-describedby="emailHelp" value="<%=current_user.getEmail()%>" readonly>
                                 <small class="form-text text-muted">Input your email.</small>
                             </div>
 

@@ -28,11 +28,12 @@ public class UserRegistrationServlet extends HttpServlet {
             // next line is inefficient, but I used this style to create more readable code
 
             user = DBManager.getUserByEmail(user.getEmail());
-            //request.setRequestDispatcher("/users?id=" + user.getId()).forward(request, response);
 
             request.getSession().setAttribute("current_user", user);
             //request.getRequestDispatcher("/users?id=" + user.getId()).forward(request, response);
-            response.sendRedirect("/users?id=" + user.getId());
+
+            //response.sendRedirect("/users?id=" + user.getId());
+            response.sendRedirect("/feed");
         }else if( !password.equals(re_password)){
             response.sendRedirect("/user_registration?re_password_error");
         }else{      //create a check for uniqueness of an email!!!!!!!!!!!!!!!!!!!!!!!!

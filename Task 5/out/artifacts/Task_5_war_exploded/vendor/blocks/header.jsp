@@ -1,7 +1,7 @@
 <%@include file="user_online.jsp"%>
 <nav class="navbar navbar-expand-lg navbar-light bg-light-blue">
     <div class="container ">
-        <a class="navbar-brand text-white" href="/home">ARALASU.ME</a>
+        <a class="navbar-brand text-white" href="/home"><i class="fab fa-artstation"></i>ARALASU.ME</a>
 
         <%if(!ONLINE){%>
         <div class="ml-auto" id="navbarNavDropdown">

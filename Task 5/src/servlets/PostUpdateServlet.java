@@ -38,8 +38,7 @@ public class PostUpdateServlet extends HttpServlet {
                 } else if(request.getParameter("delete") != null){
                     DBManager.deletePost(post_id);
                 }
-            }else{
-
+                response.sendRedirect("/user_posts");
             }
         }catch (Exception e){
             e.printStackTrace();
