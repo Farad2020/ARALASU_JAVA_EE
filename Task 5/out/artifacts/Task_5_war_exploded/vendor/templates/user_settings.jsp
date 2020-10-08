@@ -77,17 +77,17 @@
                                 String password_error = request.getParameter("password_error");
                                 String password_success = request.getParameter("password_success");
                                 if (re_password_error != null) {%>
-                            <div class="alert alert-danger col-6 offset-3" role="alert">
+                            <div class="alert alert-danger" role="alert">
                                 Your passwords are different!
                             </div>
                             <%}%>
                             <% if (password_error != null) {%>
-                            <div class="alert alert-danger col-6 offset-3" role="alert">
+                            <div class="alert alert-danger" role="alert">
                                 You've inputted incorrect password!
                             </div>
                             <%}%>
                             <% if (password_success != null) {%>
-                            <div class="alert alert-success col-6 offset-3" role="alert">
+                            <div class="alert alert-success" role="alert">
                                 You're password successfully updated!
                             </div>
                             <%}%>

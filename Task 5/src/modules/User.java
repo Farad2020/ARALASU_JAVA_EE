@@ -38,6 +38,15 @@ public class User {
     public User() {
     }
 
+    public User(User u) {
+        this.id = u.id;
+        this.email = u.email;
+        this.password = u.password;
+        this.full_name = u.full_name;
+        this.birth_date = u.birth_date;
+        this.picture_url = u.picture_url;
+    }
+
     public Long getId() {
         return id;
     }

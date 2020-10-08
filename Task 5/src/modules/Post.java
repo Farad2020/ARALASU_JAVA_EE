@@ -1,34 +1,49 @@
 package modules;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
-public class Post {
+public class Post{
     private Long id;
-    private Long authod_id;
+    private User author;
     private String title;
     private String short_content;
     private String content;
     private Timestamp post_date;
 
-    public Post(Long id, Long authod_id, String title, String short_content, String content, Timestamp post_date) {
+    public Post(Long id, User author, String title, String short_content, String content, Timestamp post_date) {
         this.id = id;
-        this.authod_id = authod_id;
+        this.author = author;
         this.title = title;
         this.short_content = short_content;
         this.content = content;
         this.post_date = post_date;
     }
 
-    public Post(Long authod_id, String title, String short_content, String content, Timestamp post_date) {
+    public Post(User author, String title, String short_content, String content, Timestamp post_date) {
         id = null;
-        this.authod_id = authod_id;
+        this.author = author;
         this.title = title;
         this.short_content = short_content;
         this.content = content;
         this.post_date = post_date;
+    }
+
+    public Post(User author, String title, String short_content, String content) {
+        id = null;
+        this.author = author;
+        this.title = title;
+        this.short_content = short_content;
+        this.content = content;
+        post_date = null;
     }
 
     public Post() {
+    }
+
+    public String getFormattedPost_date(){
+        String s = new SimpleDateFormat("dd.MM.yyyy hh:mm").format(post_date);
+        return s;
     }
 
 
@@ -40,12 +55,12 @@ public class Post {
         this.id = id;
     }
 
-    public Long getAuthod_id() {
-        return authod_id;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setAuthod_id(Long authod_id) {
-        this.authod_id = authod_id;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public String getTitle() {
@@ -84,7 +99,7 @@ public class Post {
     public String toString() {
         return "Post =>" +
                 "id=" + id +
-                ", authod_id=" + authod_id +
+                ", authod_id=" + author +
                 ", title='" + title + '\'' +
                 ", short_content='" + short_content + '\'' +
                 ", content='" + content + '\'' +

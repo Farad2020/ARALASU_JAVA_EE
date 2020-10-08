@@ -27,12 +27,14 @@
         <%}else{%>
         <div class="ml-auto" id="navbarNavDropdown">
             <ul class="navbar-nav">
+                <!--
                 <li class="nav-item active">
                     <a class="nav-link text-white" href="#"><i class="fas fa-user-circle mr-2"></i>Me</a>
                 </li>
+                -->
 
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="#"><i class="far fa-newspaper mr-2"></i>Feed</a>
+                    <a class="nav-link text-white" href="/feed"><i class="far fa-newspaper mr-2"></i>Feed</a>
                 </li>
 
                 <li class="nav-item active">
@@ -44,7 +46,7 @@
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="#"><i class="fas fa-comments mr-2"></i>My Posts</a>
+                    <a class="nav-link text-white" href="/user_posts"><i class="fas fa-comments mr-2"></i>My Posts</a>
                 </li>
 
                 <li class="nav-item active">

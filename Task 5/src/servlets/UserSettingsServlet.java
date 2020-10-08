@@ -21,12 +21,12 @@ public class UserSettingsServlet extends HttpServlet {
 
             System.out.println(user != null && user.getId() == id);
             if (user != null && user.getId() == id) {
-                String email = request.getParameter("email");
+                //String email = request.getParameter("email");
                 String full_name = request.getParameter("full_name");
                 String birthdate = request.getParameter("birthdate");
                 String picture_url = request.getParameter("picture_url");
 
-                user.setEmail(email);
+                //user.setEmail(email);
                 user.setFull_name(full_name);
                 user.setBirth_date(birthdate);
                 user.setPicture_url(picture_url);
@@ -45,7 +45,7 @@ public class UserSettingsServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String str_id = (String) request.getParameter("id");
+        String str_id = request.getParameter("id");
         User user = (User) request.getSession().getAttribute("current_user");
         if (user != null && str_id != null) {
             Long attr_id = Long.parseLong(str_id);

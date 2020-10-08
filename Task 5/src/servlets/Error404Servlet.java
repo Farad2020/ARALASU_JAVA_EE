@@ -1,5 +1,7 @@
 package servlets;
 
+import modules.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +16,12 @@ public class Error404Servlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("/vendor/templates/404.jsp");
+        User current_user = (User)request.getSession().getAttribute("current_user");
+        if( current_user != null){
+            response.sendRedirect("/vendor/templates/404.jsp");
+        }else{
+            response.sendRedirect("/user_login");
+        }
+
     }
 }

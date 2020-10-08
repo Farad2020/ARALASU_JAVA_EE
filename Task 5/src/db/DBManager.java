@@ -1,6 +1,5 @@
 package db;
 
-import example_pages.Language;
 import modules.Post;
 import modules.User;
 
@@ -8,7 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.*;
 
 public class DBManager {
     private static Connection connection;
@@ -198,6 +197,198 @@ public class DBManager {
         return rows>0;
     }
 
+
+    public static ArrayList<Post> getAllPosts(){
+        ArrayList<Post> posts = new ArrayList<>();
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " SELECT p.id, p.author_id, p.title, p.short_content, p.content, p.post_date, " +
+                    " u.id AS user_id, u.email, u.password, u.full_name, u.birth_date, u.picture_url " +
+                    " FROM posts p " +
+                    " INNER JOIN users u ON p.author_id = u.id");
+            ResultSet resultSet = st.executeQuery();
+
+            User user;
+            while(resultSet.next()){
+
+                user = new User(
+                        resultSet.getLong("user_id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("full_name"),
+                        resultSet.getString("birth_date"),
+                        resultSet.getString("picture_url"));
+
+                posts.add(new Post(
+                        resultSet.getLong("id"),
+                        user,
+                        resultSet.getString("title"),
+                        resultSet.getString("short_content"),
+                        resultSet.getString("content"),
+                        resultSet.getTimestamp("post_date")
+                ));
+            }
+
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        posts.sort(Comparator.comparing(Post::getPost_date).reversed());
+
+
+        return posts;
+    }
+
+
+    public static Post getPostById(Long id){
+        Post post = new Post();
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " SELECT p.id, p.author_id, p.title, p.short_content, p.content, p.post_date, " +
+                    " u.id AS user_id, u.email, u.password, u.full_name, u.birth_date, u.picture_url " +
+                    " FROM posts p " +
+                    " INNER JOIN users u ON p.author_id = u.id " +
+                    " WHERE p.id = ? LIMIT 1 ");
+
+            st.setLong(1, id);
+
+            ResultSet resultSet = st.executeQuery();
+
+
+            User user;
+            while(resultSet.next()){
+
+                user = new User(
+                        resultSet.getLong("user_id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("full_name"),
+                        resultSet.getString("birth_date"),
+                        resultSet.getString("picture_url"));
+
+                post = new Post(
+                        resultSet.getLong("id"),
+                        user,
+                        resultSet.getString("title"),
+                        resultSet.getString("short_content"),
+                        resultSet.getString("content"),
+                        resultSet.getTimestamp("post_date")
+                );
+            }
+
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return post;
+    }
+
+    public static ArrayList<Post> getPostsByAuthorId(Long id){
+        ArrayList<Post> posts = new ArrayList<>();
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " SELECT p.id, p.author_id, p.title, p.short_content, p.content, p.post_date, " +
+                    " u.id AS user_id, u.email, u.password, u.full_name, u.birth_date, u.picture_url " +
+                    " FROM posts p " +
+                    " INNER JOIN users u ON p.author_id = u.id " +
+                    " WHERE author_id = ? ");
+
+            st.setLong(1, id);
+
+            ResultSet resultSet = st.executeQuery();
+
+
+
+            User user;
+            while(resultSet.next()){
+
+                user = new User(
+                        resultSet.getLong("user_id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("full_name"),
+                        resultSet.getString("birth_date"),
+                        resultSet.getString("picture_url"));
+
+                posts.add(new Post(
+                        resultSet.getLong("id"),
+                        user,
+                        resultSet.getString("title"),
+                        resultSet.getString("short_content"),
+                        resultSet.getString("content"),
+                        resultSet.getTimestamp("post_date")
+                ));
+            }
+
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        posts.sort(Comparator.comparing(Post::getPost_date).reversed());
+        return posts;
+    }
+
+    public static boolean addPost(Post p){   // here instead of checking if email is unique I let MySQL do it
+        int rows = 0;                           // Check later if this is the best way to do it or not
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " INSERT INTO posts (id, author_id, title, short_content, content, post_date)" +
+                    " VALUES (NULL, ?, ?, ?, ?, NULL)");
+
+            st.setLong(1, p.getAuthor().getId());
+            st.setString(2, p.getTitle());
+            st.setString(3, p.getShort_content());
+            st.setString(4, p.getContent());
+
+            rows = st.executeUpdate();
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return rows>0;
+    }
+
+
+    public static boolean updatePost(Post p){      //Same thing like with user additions
+        int rows = 0;
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " UPDATE posts SET title = ?, short_content = ?, content = ?" +
+                    " WHERE id = ?");
+            st.setString(1, p.getTitle());
+            st.setString(2, p.getShort_content());
+            st.setString(3, p.getContent());
+            st.setLong(4, p.getId());
+            rows = st.executeUpdate();
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return rows>0;
+    }
+
+
+    public static boolean deletePost(Long id){
+        int rows = 0;
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " DELETE FROM posts" +
+                    " WHERE id = ?");
+            st.setLong(1, id);
+            rows = st.executeUpdate();
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return rows>0;
+    }
     /*
     id – int(11)
     authod_id – int(11) - foreign key with table users.id

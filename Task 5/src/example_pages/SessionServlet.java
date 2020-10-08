@@ -1,4 +1,4 @@
-package servlets;
+package example_pages;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
