@@ -87,14 +87,15 @@
                         for (Post post : posts) {%>
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h5 class="card-title"><%=post.getTitle()%>
+                        <h5 class="card-title">
+                            <a href="#" class="btn btn-outline-dark mr-2" data-toggle="modal"
+                              data-target="#postdDetailsModal<%=post.getId()%>">
+                            <i class="fas fa-caret-down"></i></a>
+
+                            <%=post.getTitle()%>
                         </h5>
                         <p class="card-text"><%=post.getShort_content()%>
                         </p>
-
-                        <a href="#" class="btn btn-primary" data-toggle="modal"
-                           data-target="#postdDetailsModal<%=post.getId()%>">More <i
-                                class="fas fa-long-arrow-alt-right"></i></a>
                     </div>
                     <div class="card-footer text-muted">
                         <div class="d-flex  justify-content-between align-items-center">
@@ -105,7 +106,7 @@
                             </div>
 
                             <% if (current_user.getId().equals(post.getAuthor().getId())){%>
-                                <a href="#" class="btn btn-primary" data-toggle="modal"
+                                <a href="#" class="btn btn-outline-primary" data-toggle="modal"
                                    data-target="#postdEditModal<%=post.getId()%>"><i class="far fa-edit"></i></a>
                             <%}%>
                         </div>

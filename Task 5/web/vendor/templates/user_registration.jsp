@@ -21,9 +21,15 @@
 
     <div class="container mw-100 p-0 mt-5">
         <% String re_password_error = request.getParameter("re_password_error");
+            String email_error = request.getParameter("email_error");
             if( re_password_error != null ){%>
         <div class="alert alert-danger col-6 offset-3" role="alert">
             Your passwords are different!
+        </div>
+        <%}
+            if( email_error != null ){%>
+        <div class="alert alert-danger col-6 offset-3" role="alert">
+            Your email is already in use!
         </div>
         <%}%>
 
@@ -59,7 +65,7 @@
                     <small class="form-text text-muted">Input your birthdate.</small>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-outline-primary">Submit</button>
             </form>
         </div>
     </div>

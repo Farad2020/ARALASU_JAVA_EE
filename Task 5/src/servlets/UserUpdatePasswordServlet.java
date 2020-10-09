@@ -20,10 +20,15 @@ public class UserUpdatePasswordServlet extends HttpServlet {
 
         User user = (User)request.getSession().getAttribute("current_user");
         if( user != null && user.getId() == id ){
-            if( !password.equals(user.getPassword()) ){
-                response.sendRedirect("/user_edit?password_error&id="+id);
-            }else if( !new_password.equals(re_password) ){
-                response.sendRedirect("/user_edit?re_password_error&id="+id);
+            if( !password.equals(user.getPassword()) || !new_password.equals(re_password)){
+                String redirect_str = "/user_edit?&id="+id;
+                if(!password.equals(user.getPassword())){
+                    redirect_str += "&password_error";
+                }
+                if(!new_password.equals(re_password)){
+                    redirect_str += "&re_password_error";
+                }
+                response.sendRedirect(redirect_str);
             }else{
                 user.setPassword(new_password);
                 DBManager.updateUser(user);

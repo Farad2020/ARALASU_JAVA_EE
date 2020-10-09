@@ -22,8 +22,11 @@ public class UserRegistrationServlet extends HttpServlet {
         String full_name = request.getParameter("full_name");
         String birthdate = request.getParameter("birthdate");
 
-        if( password.equals(re_password) ){
-            User user = new User( email, password, full_name, birthdate );
+        User user = DBManager.getUserByEmail(email);
+        if( user.getId() != null ){
+            response.sendRedirect("/user_registration?email_error");
+        }else if( password.equals(re_password) ){
+            user = new User( email, password, full_name, birthdate );
             DBManager.addUser(user);
             // next line is inefficient, but I used this style to create more readable code
 

@@ -52,7 +52,7 @@
                     <input name="remember_user" type="checkbox" class="form-check-input" id="userRememberCheck">
                     <label class="form-check-label" for="userRememberCheck">Remember me</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-outline-primary mt-2">Submit</button>
             </form>
         </div>
     </div>

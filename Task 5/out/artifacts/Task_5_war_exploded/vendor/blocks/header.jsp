@@ -18,9 +18,6 @@
                 <li class="nav-item active">
                     <a class="nav-link text-white" href="#"><i class="fas fa-share-alt mr-2"></i>About ARALASU</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link text-white" href="/sessions">SESSIONS</a>
-                </li>
             </ul>
         </div>
 
