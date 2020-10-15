@@ -16,3 +16,65 @@
     max-width: 17rem;
     object-fit: cover;
 }
+
+.profile-picture-frame{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 17rem;
+    width: 17rem;
+}
+
+.my-search-bar{
+    border: none;
+    border-bottom: skyblue 2px solid;
+}
+
+.friend-search-img{
+    max-height: 8rem;
+    max-width: 8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.friends-img-frame{
+    height: 9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/*
+.circular--square {
+    border-radius: 50%;
+}
+
+.circular--landscape {
+    display: inline-block;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.circular--landscape img {
+    width: auto;
+    height: 100%;
+    margin-left: -50px;
+}
+
+.circular--portrait {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.circular--portrait img {
+    width: 100%;
+    height: auto;
+}
+
+ */

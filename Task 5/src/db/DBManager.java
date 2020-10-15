@@ -19,12 +19,18 @@ public class DBManager {
             connection = DriverManager.getConnection(
                     "jdbc:mysql://localhost:3306/java_task_5?useUnicode=true&serverTimezone=UTC",
                     "root", "");
+            PreparedStatement st = connection.prepareStatement("" +
+                    " SET time_zone = '+6:00' ");
+
+            ResultSet resultSet = st.executeQuery();
+
+            resultSet.close();
+            st.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    //Students
     public static ArrayList<User> getAllUsers(){
         ArrayList<User> users = new ArrayList<>();
         try{
@@ -32,6 +38,165 @@ public class DBManager {
                     " SELECT id, email, password, full_name, birth_date, picture_url " +
                     " FROM users");
 
+            ResultSet resultSet = st.executeQuery();
+
+            while(resultSet.next()){
+                users.add(new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("full_name"),
+                        resultSet.getString("birth_date"),
+                        resultSet.getString("picture_url")
+                ));
+            }
+
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public static ArrayList<User> getAllUserFriendsById(Long id){
+        ArrayList<User> users = new ArrayList<>();
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " SELECT u.id, u.email, u.password, u.full_name, u.birth_date, u.picture_url," +
+                    " f.friend_id " +
+                    " FROM users u " +
+                    " INNER JOIN friends f ON f.friend_id = u.id" +
+                    " WHERE f.user_id = ?");
+
+            st.setLong(1, id);
+            ResultSet resultSet = st.executeQuery();
+
+            while(resultSet.next()){
+                users.add(new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("full_name"),
+                        resultSet.getString("birth_date"),
+                        resultSet.getString("picture_url")
+                ));
+            }
+
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public static ArrayList<User> getAllRequestingUsersById(Long id){
+        ArrayList<User> users = new ArrayList<>();
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " SELECT u.id, u.email, u.password, u.full_name, u.birth_date, u.picture_url " +
+                    " FROM users u " +
+                    " INNER JOIN friends_requests fr ON fr.request_sender_id = u.id" +
+                    " WHERE fr.user_id = ?");
+
+            st.setLong(1, id);
+            ResultSet resultSet = st.executeQuery();
+
+            while(resultSet.next()){
+                users.add(new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("full_name"),
+                        resultSet.getString("birth_date"),
+                        resultSet.getString("picture_url")
+                ));
+            }
+
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public static ArrayList<User> searchRequestedUsersByUserId(Long id, String full_name){
+        ArrayList<User> users = new ArrayList<>();
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " SELECT u.id, u.email, u.password, u.full_name, u.birth_date, u.picture_url " +
+                    " FROM users u " +
+                    " INNER JOIN friends_requests fr ON fr.user_id = u.id" +
+                    " WHERE fr.request_sender_id = ? AND " +
+                    " LOWER(full_name) LIKE LOWER(?) ");
+
+            st.setLong(1, id);
+            st.setString(2, "%"+full_name+"%");
+            ResultSet resultSet = st.executeQuery();
+
+            while(resultSet.next()){
+                users.add(new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("full_name"),
+                        resultSet.getString("birth_date"),
+                        resultSet.getString("picture_url")
+                ));
+            }
+
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public static ArrayList<User> searchUserFriends(Long id, String full_name){
+        ArrayList<User> users = new ArrayList<>();
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " SELECT u.id, u.email, u.password, u.full_name, u.birth_date, u.picture_url" +
+                    " FROM users u " +
+                    " INNER JOIN friends f ON f.friend_id = u.id" +
+                    " WHERE f.user_id = ? AND " +
+                    " LOWER(full_name) LIKE LOWER(?) ");
+
+            st.setLong(1, id);
+            st.setString(2, "%"+full_name+"%");
+            ResultSet resultSet = st.executeQuery();
+
+            while(resultSet.next()){
+                users.add(new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("full_name"),
+                        resultSet.getString("birth_date"),
+                        resultSet.getString("picture_url")
+                ));
+            }
+
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public static ArrayList<User> getUsersByFullNamePart(String full_name){
+        ArrayList<User> users = new ArrayList<>();
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " SELECT id, email, password, full_name, birth_date, picture_url " +
+                    " FROM users" +
+                    " WHERE LOWER(full_name) LIKE LOWER(?)"); //WHERE CHARINDEX(LOWER(?), LOWER(full_name)) > 0
+
+            st.setString(1, "%"+full_name+"%");
             ResultSet resultSet = st.executeQuery();
 
             while(resultSet.next()){
@@ -139,7 +304,7 @@ public class DBManager {
     }
 
     public static boolean addUser(User user){   // here instead of checking if email is unique I let MySQL do it
-        int rows = 0;                           // Check later if this is the best way to do it or not
+        int rows = 0; // Check later if this is the best way to do it or not
         try{
             PreparedStatement st = connection.prepareStatement("" +
                     " INSERT INTO users (id, email, password, full_name, birth_date, picture_url)" +
@@ -197,6 +362,96 @@ public class DBManager {
         return rows>0;
     }
 
+    public static boolean addFriendRequest(Long acceptor_id, Long requester_id){
+        int rows = 0;
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " INSERT INTO friends_requests (id, user_id, request_sender_id)" +
+                    " VALUES (NULL, ?, ?) ");
+
+            st.setLong(1, acceptor_id);
+            st.setLong(2, requester_id);
+            rows = st.executeUpdate();
+
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return rows>0;
+    }
+
+    public static boolean acceptFriendRequest(Long acceptor_id, Long requester_id){
+        int rows1 = 0;
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " DELETE FROM friends_requests" +
+                    " WHERE user_id = ? AND request_sender_id = ? ");
+
+            st.setLong(1, acceptor_id);
+            st.setLong(2, requester_id);
+            rows1 = st.executeUpdate();
+
+            st = connection.prepareStatement("" +
+                    " INSERT INTO friends (id, user_id, friend_id)" +
+                    " VALUES (NULL, ?, ?), (NULL, ?, ?) ");
+            st.setLong(1, acceptor_id);
+            st.setLong(2, requester_id);
+
+            st.setLong(3, requester_id);
+            st.setLong(4, acceptor_id);
+
+            rows1 += st.executeUpdate();
+
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return rows1>0;
+    }
+
+    public static boolean rejectFriendRequest(Long acceptor_id, Long requester_id){
+        int rows = 0;
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " DELETE FROM friends_requests" +
+                    " WHERE user_id = ? AND request_sender_id = ? ");
+
+            st.setLong(1, acceptor_id);
+            st.setLong(2, requester_id);
+
+            rows = st.executeUpdate();
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return rows>0;
+    }
+
+    public static boolean deleteFriend(Long user_id, Long friend_id){
+        int rows = 0;
+        try{
+            PreparedStatement st = connection.prepareStatement("" +
+                    " DELETE FROM friends" +
+                    " WHERE user_id IN (?,?) AND friend_id IN (?,?) ");
+
+            st.setLong(1, user_id);
+            st.setLong(2, friend_id);
+
+            st.setLong(3, user_id);
+            st.setLong(4, friend_id);
+
+            rows = st.executeUpdate();
+            st.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return rows>0;
+    }
+
 
     public static ArrayList<Post> getAllPosts(){
         ArrayList<Post> posts = new ArrayList<>();
@@ -205,7 +460,7 @@ public class DBManager {
                     " SELECT p.id, p.author_id, p.title, p.short_content, p.content, p.post_date, " +
                     " u.id AS user_id, u.email, u.password, u.full_name, u.birth_date, u.picture_url " +
                     " FROM posts p " +
-                    " INNER JOIN users u ON p.author_id = u.id");
+                    " INNER JOIN users u ON p.author_id = u.id ");
             ResultSet resultSet = st.executeQuery();
 
             User user;
@@ -389,164 +644,4 @@ public class DBManager {
         }
         return rows>0;
     }
-    /*
-    id – int(11)
-    authod_id – int(11) - foreign key with table users.id
-    title – text
-    short_content – text
-    content – text
-    post_date – timestamp
-
-    public static Post getPost(Long id){
-        Post post = new Post();
-        try{
-            PreparedStatement st = connection.prepareStatement("" +
-                    " SELECT n.id, n.title, n.short_content, n.content, n.post_date, n.picture_url, n.language_id, n.publication_id, " +
-                    " p.name AS pub_name, p.description AS pub_description, p.rating," +
-                    " l.name AS lang_name, l.code " +
-                    " FROM news n " +
-                    " INNER JOIN publications p ON n.publication_id = p.id" +
-                    " INNER JOIN languages l ON n.language_id = l.id"+
-                    " WHERE n.id = ? LIMIT 1");
-
-            st.setLong(1, id);
-            ResultSet resultSet = st.executeQuery();
-
-            if(resultSet.next()){
-                news = new News(
-                        resultSet.getLong("id"),
-                        resultSet.getString("title"),
-                        resultSet.getString("short_content"),
-                        resultSet.getString("content"),
-                        resultSet.getTimestamp("post_date"),
-                        resultSet.getString("picture_url"),
-                        new Language(
-                                resultSet.getLong("language_id"),
-                                resultSet.getString("lang_name"),
-                                resultSet.getString("code") ),
-                        new Publication(resultSet.getLong("publication_id"),
-                                resultSet.getString("pub_name"),
-                                resultSet.getString("pub_description"),
-                                resultSet.getDouble("rating"))
-                );
-            }
-
-            st.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return news;
-    }
-    
-
-    public static ArrayList<News> getAllNewsByLangCode(String code){
-        ArrayList<News> news = new ArrayList<>();
-        try{
-            PreparedStatement st = connection.prepareStatement("" +
-                    " SELECT n.id, n.title, n.short_content, n.content, n.post_date, n.picture_url, n.language_id, n.publication_id, " +
-                    " p.name AS pub_name, p.description AS pub_description, p.rating," +
-                    " l.name AS lang_name, l.code " +
-                    " FROM news n " +
-                    " INNER JOIN publications p ON n.publication_id = p.id" +
-                    " INNER JOIN languages l ON n.language_id = l.id");
-
-            ResultSet resultSet = st.executeQuery();
-
-            while(resultSet.next()){
-                if(resultSet.getString("code").equals(code)){
-                    news.add(new News(
-                            resultSet.getLong("id"),
-                            resultSet.getString("title"),
-                            resultSet.getString("short_content"),
-                            resultSet.getString("content"),
-                            resultSet.getTimestamp("post_date"),
-                            resultSet.getString("picture_url"),
-                            new Language(
-                                    resultSet.getLong("language_id"),
-                                    resultSet.getString("lang_name"),
-                                    resultSet.getString("code") ),
-                            new Publication(resultSet.getLong("publication_id"),
-                                    resultSet.getString("pub_name"),
-                                    resultSet.getString("pub_description"),
-                                    resultSet.getDouble("rating"))
-                    ));
-
-                }
-            }
-
-            st.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return news;
-    }
-
-
-
-    public static boolean addNews(News news){
-        int rows = 0;
-        try{
-            PreparedStatement st = connection.prepareStatement("" +
-                    " INSERT INTO news (id, title, short_content, content, post_date, picture_url, language_id, publication_id)" +
-                    " VALUES (NULL, ?, ?, ?, ?, ? , ?, ?)");
-
-            st.setString(1, news.getTitle());
-            st.setString(2, news.getShort_content());
-            st.setString(3, news.getContent());
-            st.setTimestamp(4, news.getPost_date());
-            st.setString(5, news.getPicture_url());
-            st.setLong(6, news.getLanguage().getId());
-            st.setLong(7, news.getPublication().getId());
-            rows = st.executeUpdate();
-            st.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return rows>0;
-    }
-
-    public static boolean updateNews(News news){
-        int rows = 0;
-        try{
-            PreparedStatement st = connection.prepareStatement("" +
-                    " UPDATE news SET title = ?, short_content = ?, content = ?, post_date = ?," +
-                    " picture_url = ?, language_id = ?, publication_id = ? " +
-                    " WHERE id = ?");
-
-            st.setString(1, news.getTitle());
-            st.setString(2, news.getShort_content());
-            st.setString(3, news.getContent());
-            st.setTimestamp(4, news.getPost_date());
-            st.setString(5, news.getPicture_url());
-            st.setLong(6, news.getLanguage().getId());
-            st.setLong(7, news.getPublication().getId());
-            st.setLong(8, news.getId());
-            rows = st.executeUpdate();
-            st.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return rows>0;
-    }
-
-    public static boolean deleteNews(Long id){
-        int rows = 0;
-        try{
-            PreparedStatement st = connection.prepareStatement("" +
-                    " DELETE FROM news" +
-                    " WHERE id = ?");
-            st.setLong(1, id);
-            rows = st.executeUpdate();
-            st.close();
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return rows>0;
-    }
-    */
 }

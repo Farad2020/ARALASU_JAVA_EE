@@ -1,0 +1,8 @@
+buttons with shadows
+put img inside div, and normalize heught and width
+remove time from posts or solve the problem
+
+
+maybe add a game
+
+sticky footer -> min height for main container

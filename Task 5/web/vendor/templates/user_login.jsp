@@ -29,6 +29,9 @@
             if( error != null ){%>
         <div class="alert alert-danger col-6 offset-3" role="alert">
             Your email or password are incorrect!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <%}%>
         <div class="row justify-content-center">

@@ -79,16 +79,25 @@
                                 if (re_password_error != null) {%>
                             <div class="alert alert-danger" role="alert">
                                 Your passwords are different!
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                             <%}%>
                             <% if (password_error != null) {%>
                             <div class="alert alert-danger" role="alert">
                                 You've inputted incorrect password!
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                             <%}%>
                             <% if (password_success != null) {%>
                             <div class="alert alert-success" role="alert">
                                 You're password successfully updated!
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
                             <%}%>
 

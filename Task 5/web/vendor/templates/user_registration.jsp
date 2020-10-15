@@ -25,11 +25,17 @@
             if( re_password_error != null ){%>
         <div class="alert alert-danger col-6 offset-3" role="alert">
             Your passwords are different!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <%}
             if( email_error != null ){%>
         <div class="alert alert-danger col-6 offset-3" role="alert">
             Your email is already in use!
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <%}%>
 

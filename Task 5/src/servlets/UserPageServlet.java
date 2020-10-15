@@ -24,8 +24,14 @@ public class UserPageServlet extends HttpServlet {
         //Create age calculating method for user
 
         // Later maybe other user can see other user, so keep in mind new interactions it may cause
-        if( user.getId() != null && current_user != null && current_user.getId() == id){
+        if( user.getId() != null && current_user != null && current_user.getId() != user.getId()){
+            request.setAttribute("other_user", user);
+
+            request.setAttribute("posts", DBManager.getPostsByAuthorId(user.getId()));
+
             request.getRequestDispatcher("/vendor/templates/user_page.jsp").forward(request, response);
+        }else if(user.getId() != null && current_user != null && current_user.getId() == user.getId()){
+            request.getRequestDispatcher("/user_posts");
         }else{
             request.getRequestDispatcher("/404").forward(request, response);
         }

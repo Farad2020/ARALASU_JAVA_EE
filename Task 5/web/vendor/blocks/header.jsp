@@ -35,7 +35,7 @@
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="#"><i class="fas fa-user-friends mr-2"></i> Friends </a>
+                    <a class="nav-link text-white" href="/friends"><i class="fas fa-user-friends mr-2"></i> Friends </a>
                 </li>
 
                 <li class="nav-item active">

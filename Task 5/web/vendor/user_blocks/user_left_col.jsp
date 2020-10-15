@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="text-center col-12 p-0">
+    <div class="text-center col-12 p-0 profile-picture-frame">
         <img src="<%=page_user.getPicture_url()%>" class="rounded profile-picture-default" alt="profile_picture">
     </div>
 
