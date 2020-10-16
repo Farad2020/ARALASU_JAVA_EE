@@ -1,3 +1,4 @@
+<%@ page import="db.DBManager" %>
 <%@include file="user_online.jsp"%>
 <nav class="navbar navbar-expand-lg navbar-light bg-light-blue">
     <div class="container ">
@@ -47,7 +48,10 @@
                 </li>
 
                 <li class="nav-item active">
-                    <a class="nav-link text-white" href="#"><i class="fab fa-telegram-plane mr-2"></i>Messages</a>
+                    <% int new_message_num = DBManager.newUserMessageNumber(current_user.getId());%>
+                    <a class="nav-link text-white" href="/chats"><i class="fab fa-telegram-plane mr-2"></i>Messages
+                    <%=(new_message_num > 0) ? "("+new_message_num+")" :""%>
+                    </a>
                 </li>
 
                 <li class="nav-item active">

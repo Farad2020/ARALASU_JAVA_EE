@@ -31,15 +31,15 @@
 }
 
 .friend-search-img{
-    max-height: 8rem;
-    max-width: 8rem;
+    max-height: 7rem;
+    max-width: 7rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .friends-img-frame{
-    height: 9rem;
+    height: 7rem;
     display: flex;
     align-items: center;
     justify-content: center;

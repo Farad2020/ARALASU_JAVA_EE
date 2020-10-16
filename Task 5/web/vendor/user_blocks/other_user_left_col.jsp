@@ -23,9 +23,7 @@
 <div class="modal fade" id="sendMessageModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <form action="/send_message" method="post" accept-charset="UTF-8">
-
-            <input hidden type="text" value="<%=current_user.getId()%>" name="author_id">
-            <input hidden type="text" value="<%=other_user.getId()%>" name="opponent_id">
+            <input hidden value="<%=other_user.getId()%>" name="opponent_id">
 
             <div class="modal-content">
                 <div class="modal-header">
@@ -36,7 +34,7 @@
 
                     <div class="form-group">
                         <label>Content</label>
-                        <textarea class="form-control" name="post_content" rows="18"></textarea>
+                        <textarea class="form-control" name="message_text" rows="18"></textarea>
                     </div>
 
                 </div>

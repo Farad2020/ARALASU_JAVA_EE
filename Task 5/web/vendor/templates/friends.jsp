@@ -115,9 +115,9 @@
                                     <h6 class="card-subtitle mb-2 text-muted">AGE: <%=friend.getUserAge()%>
                                     </h6>
 
-                                    <button class="btn btn-sm btn-outline-info"><i class="fas fa-paper-plane"></i>
+                                    <a href="/messages?id=<%=friend.getId()%>" class="btn btn-sm btn-outline-info"><i class="fas fa-paper-plane"></i>
                                         Send Message
-                                    </button>
+                                    </a>
                                 </div>
 
                             </div>

@@ -9,7 +9,7 @@
 <% ArrayList<User> searched_and_requested_users = (ArrayList<User>) request.getAttribute("searched_and_requested_users");
     if (searched_and_requested_users != null && searched_and_requested_users.size() > 0) {%>
 <div class="card my-4 p-2">
-    <h3 class="text-primary">People that You've sent Request:</h3>
+    <h5 class="text-primary">People that You've sent Request:</h5>
 </div>
 <%
     for (User searched_and_requested_user : searched_and_requested_users) {
@@ -58,7 +58,7 @@
 <% ArrayList<User> searched_user_friends = (ArrayList<User>) request.getAttribute("searched_user_friends");
     if (searched_user_friends != null && searched_user_friends.size() > 0) {%>
 <div class="card my-4 p-2">
-    <h3 class="text-primary">Friends:</h3>
+    <h5 class="text-primary">Friends:</h5>
 
 </div>
 <%
@@ -87,9 +87,9 @@
                         AGE: <%=searched_friend.getUserAge()%>
                     </h6>
 
-                    <button class="btn btn-sm btn-outline-info"><i class="fas fa-paper-plane"></i>
+                    <a href="/messages?id=<%=searched_friend.getId()%>"class="btn btn-sm btn-outline-info"><i class="fas fa-paper-plane"></i>
                         Send Message
-                    </button>
+                    </a>
                 </div>
 
             </div>
@@ -106,7 +106,7 @@
 <% ArrayList<User> searched_users = (ArrayList<User>) request.getAttribute("searched_users");
     if (searched_users != null && searched_users.size() > 0) {%>
 <div class="card my-4 p-2">
-    <h3 class="text-primary">Other People:</h3>
+    <h5 class="text-primary">Other People:</h5>
 </div>
 <%
     for (User searched_user : searched_users) {
